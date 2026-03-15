@@ -1,568 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kolebe — Photography</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0d0d0d;
-      --surface: #141414;
-      --border: #222;
-      --text: #e8e2d9;
-      --muted: #6b6560;
-      --accent: #c9a96e;
-      --white: #f5f0ea;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      font-size: 15px;
-      line-height: 1.7;
-      cursor: default;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      background: rgba(13,13,13,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      color: var(--white);
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--accent); }
-
-    /* ── HERO ── */
-    #hero {
-      height: 100vh;
-      display: flex;
-      align-items: flex-end;
-      padding: 5rem 3rem;
-      position: relative;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%),
-        /* Replace this with your hero image: url('your-hero.jpg') center/cover */
-        linear-gradient(135deg, #1a1512 0%, #0d0d0d 50%, #12100e 100%);
-      background-size: cover;
-      background-position: center;
-    }
-
-    /* Decorative grain overlay */
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      opacity: 0.4;
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 700px;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.4s forwards;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .hero-sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      max-width: 420px;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.6s forwards;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.85rem 2.2rem;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: background 0.25s, color 0.25s;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.8s forwards;
-    }
-
-    .btn:hover {
-      background: var(--accent);
-      color: var(--bg);
-    }
-
-    /* ── WORK ── */
-    #work {
-      padding: 7rem 3rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .section-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 300;
-      color: var(--white);
-    }
-
-    /* ── FILTER TABS ── */
-    .filter-tabs {
-      display: flex;
-      gap: 0;
-      margin-bottom: 2.5rem;
-      border: 1px solid var(--border);
-      width: fit-content;
-    }
-
-    .filter-btn {
-      background: none;
-      border: none;
-      border-right: 1px solid var(--border);
-      color: var(--muted);
-      padding: 0.7rem 1.6rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .filter-btn:last-child { border-right: none; }
-    .filter-btn:hover { color: var(--text); background: var(--surface); }
-    .filter-btn.active { background: var(--accent); color: var(--bg); }
-
-    /* ── GALLERY ── */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 220px;
-      gap: 6px;
-    }
-
-    .gallery-item {
-      background: var(--surface);
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-
-    .gallery-item.hidden {
-      display: none;
-    }
-
-    /* Layout variation — applied dynamically via JS */
-    .gallery-item.span-7-2 { grid-column: span 7; grid-row: span 2; }
-    .gallery-item.span-5   { grid-column: span 5; }
-    .gallery-item.span-4   { grid-column: span 4; }
-    .gallery-item.span-5-2 { grid-column: span 5; grid-row: span 2; }
-    .gallery-item.span-7   { grid-column: span 7; }
-
-    .gallery-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      filter: brightness(0.9);
-    }
-
-    .gallery-item:hover img { transform: scale(1.04); filter: brightness(1); }
-
-    /* Placeholder when no image */
-    .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--surface);
-      border: 1px dashed var(--border);
-      color: var(--muted);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* Category tag on hover */
-    .gallery-item .cat-tag {
-      position: absolute;
-      bottom: 0.8rem;
-      left: 0.8rem;
-      background: rgba(13,13,13,0.75);
-      color: var(--accent);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.7rem;
-      opacity: 0;
-      transition: opacity 0.2s;
-      pointer-events: none;
-    }
-
-    .gallery-item:hover .cat-tag { opacity: 1; }
-
-    /* ── ABOUT ── */
-    #about {
-      padding: 7rem 3rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-      border-top: 1px solid var(--border);
-    }
-
-    .about-image {
-      aspect-ratio: 4/5;
-      background: var(--surface);
-      border: 1px dashed var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      overflow: hidden;
-    }
-
-    .about-image img { width: 100%; height: 100%; object-fit: cover; }
-
-    .about-text .section-header { margin-bottom: 2rem; }
-
-    .about-body {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.9;
-      margin-bottom: 2rem;
-    }
-
-    .about-body strong { color: var(--text); font-weight: 400; }
-
-    /* ── SERVICES ── */
-    #services {
-      padding: 7rem 3rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      margin-top: 3.5rem;
-    }
-
-    .service-card {
-      background: var(--bg);
-      padding: 2.5rem;
-      transition: background 0.2s;
-    }
-
-    .service-card:hover { background: var(--surface); }
-
-    .service-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      font-weight: 300;
-      color: var(--border);
-      margin-bottom: 1.5rem;
-      line-height: 1;
-    }
-
-    .service-name {
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 0.8rem;
-    }
-
-    .service-desc {
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.8;
-    }
-
-    /* ── CONTACT ── */
-    #contact {
-      padding: 7rem 3rem;
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-
-    .contact-left .section-title {
-      margin-bottom: 1.5rem;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-    }
-
-    .contact-left p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      max-width: 380px;
-      margin-bottom: 2.5rem;
-    }
-
-    .contact-detail {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .contact-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .contact-value {
-      color: var(--text);
-      font-size: 0.9rem;
-      text-decoration: none;
-    }
-
-    .contact-value:hover { color: var(--accent); }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.85rem 1rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 300;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--accent);
-    }
-
-    .form-group textarea { resize: vertical; min-height: 120px; }
-
-    .form-group select option { background: var(--surface); }
-
-    .btn-submit {
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 1rem 2.5rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: opacity 0.2s;
-    }
-
-    .btn-submit:hover { opacity: 0.85; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-    }
-
-    footer p {
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lightbox.active { display: flex; }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 2rem; right: 2.5rem;
-      font-size: 1.5rem;
-      color: var(--muted);
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-
-    .lightbox-close:hover { color: var(--white); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; }
-
-      #hero { padding: 6rem 1.5rem 3rem; }
-
-      #work, #about, #services, #contact { padding: 4rem 1.5rem; }
-
-      .gallery {
-        grid-template-columns: 1fr 1fr;
-        grid-auto-rows: 200px;
-      }
-
-      .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; }
-
-      #about { grid-template-columns: 1fr; gap: 2.5rem; }
-
-      .services-grid { grid-template-columns: 1fr; }
-
-      #contact { grid-template-columns: 1fr; gap: 3rem; }
-
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kolebe — Visual Artist & Photographer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Syne:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--bg2:#0f0f0f;--surface:#141414;
+  --border:rgba(255,255,255,0.07);--text:#ede8e0;
+  --muted:#6a6560;--accent:#d4a853;--accent2:#8b6fff;--white:#f5f0ea;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;font-weight:300;cursor:none;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");opacity:0.6}
+
+/* CURSOR */
+#cursor{position:fixed;width:10px;height:10px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(212,168,83,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .2s}
+body.cursor-hover #cursor{width:6px;height:6px;background:var(--accent2)}
+body.cursor-hover #cursor-ring{width:56px;height:56px;border-color:var(--accent2)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem}
+nav::before{content:'';position:absolute;inset:0;background:rgba(8,8,8,0.65);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:-1}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.1em;color:var(--white);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:100%;height:1px;background:var(--accent);transition:right .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{right:0}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 3rem 4rem;position:relative;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(212,168,83,0.12),transparent 70%);top:-100px;right:-100px;animation:drift1 12s ease-in-out infinite alternate}
+.orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(139,111,255,0.1),transparent 70%);bottom:-50px;left:-50px;animation:drift2 15s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(0,0)}to{transform:translate(-60px,40px)}}
+@keyframes drift2{from{transform:translate(0,0)}to{transform:translate(40px,-60px)}}
+.hero-bg-letter{position:absolute;right:-0.05em;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(18rem,30vw,38rem);color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.025);line-height:1;pointer-events:none;user-select:none}
+.hero-tag{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;opacity:0;animation:slideUp .7s .3s forwards}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4.5rem,13vw,13rem);line-height:.9;color:var(--white);margin-bottom:2rem;opacity:0;animation:slideUp .8s .5s forwards}
+.hero-title .iw{font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent);font-size:.85em}
+.hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;opacity:0;animation:slideUp .8s .8s forwards}
+.hero-sub{color:var(--muted);font-size:.88rem;max-width:380px;line-height:1.8}
+.hero-cta{display:flex;align-items:center;gap:1rem;text-decoration:none;color:var(--white);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+.hero-cta-circle{width:60px;height:60px;border-radius:50%;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:transform .4s,background .3s}
+.hero-cta:hover .hero-cta-circle{transform:rotate(45deg);background:var(--accent);color:var(--bg)}
+.scroll-line{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
+.scroll-line span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.scroll-line-bar{width:1px;height:60px;background:var(--border);position:relative;overflow:hidden}
+.scroll-line-bar::after{content:'';position:absolute;top:-100%;left:0;right:0;height:100%;background:var(--accent);animation:scbar 2s 1.5s ease-in-out infinite}
+@keyframes scbar{0%{top:-100%}100%{top:100%}}
+
+/* MARQUEE */
+.marquee-section{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1rem 0;background:var(--bg2)}
+.marquee-track{display:flex;gap:3rem;animation:marquee 22s linear infinite;white-space:nowrap;width:max-content}
+.marquee-item{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.15em;color:var(--muted);display:flex;align-items:center;gap:3rem}
+.marquee-dot{color:var(--accent);font-size:.6rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* WORK */
+#work{padding:8rem 3rem}
+.section-label{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:block}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,5rem);color:var(--white);line-height:.95;margin-bottom:3rem}
+
+/* Filter */
+.filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem}
+.filter-tabs{display:flex;gap:.4rem}
+.filter-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.55rem 1.3rem;font-family:'Syne',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;cursor:none;border-radius:999px;transition:all .25s}
+.filter-btn:hover{border-color:var(--muted);color:var(--text)}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+
+/* BENTO */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:160px;gap:8px}
+.bento-item{background:var(--surface);border-radius:12px;overflow:hidden;position:relative;transition:transform .4s cubic-bezier(.23,1,.32,1)}
+.bento-item:hover{transform:scale(0.985)}
+.b-wide{grid-column:span 7;grid-row:span 2}
+.b-tall{grid-column:span 5;grid-row:span 2}
+.b-med{grid-column:span 5}
+.b-sm{grid-column:span 4}
+.b-half{grid-column:span 6;grid-row:span 2}
+.bento-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.23,1,.32,1),filter .4s;filter:brightness(.85) saturate(.9)}
+.bento-item:hover img{transform:scale(1.06);filter:brightness(1) saturate(1.05)}
+.bento-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:1.2rem}
+.bento-item:hover .bento-overlay{opacity:1}
+.bento-overlay-text{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+.bento-ph{width:100%;height:100%;border:1px dashed rgba(255,255,255,0.06);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(255,255,255,0.12)}
+.bento-ph-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase}
+.bento-ph-icon{font-size:1.5rem;opacity:.4}
+.bento-item.hidden{display:none}
+
+/* STRIP */
+#strip{padding:5rem 0;border-top:1px solid var(--border);overflow:hidden}
+.strip-header{padding:0 3rem;margin-bottom:2.5rem;display:flex;align-items:center;justify-content:space-between}
+.strip-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 3rem 1.5rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab}
+.strip-scroll:active{cursor:grabbing}
+.strip-scroll::-webkit-scrollbar{display:none}
+.strip-item{flex:0 0 280px;height:380px;background:var(--surface);border-radius:12px;overflow:hidden;position:relative}
+.strip-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.strip-item:hover img{transform:scale(1.05)}
+
+/* ABOUT */
+#about{padding:8rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-visual{position:relative}
+.about-img-wrap{aspect-ratio:3/4;background:var(--surface);border-radius:16px;overflow:hidden;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover}
+.stat-card{position:absolute;background:rgba(20,20,20,.85);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:12px;padding:1rem 1.4rem}
+.stat-card:nth-child(2){bottom:-1.5rem;right:-2rem}
+.stat-card:nth-child(3){top:2rem;left:-2.5rem}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.stat-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.about-intro{font-family:'Instrument Serif',serif;font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;color:var(--white);line-height:1.4;margin-bottom:2rem}
+.about-text{color:var(--muted);font-size:.9rem;line-height:1.9;margin-bottom:1.5rem}
+.about-text strong{color:var(--text);font-weight:400}
+.gear-list{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.gear-tag{border:1px solid var(--border);color:var(--muted);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .9rem;border-radius:999px}
+
+/* SERVICES */
+#services{padding:8rem 3rem;background:var(--bg2);border-top:1px solid var(--border)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:4rem}
+.service-card{background:var(--bg2);padding:2.8rem;transition:background .25s;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 0% 100%,rgba(212,168,83,0.06),transparent 60%);opacity:0;transition:opacity .3s}
+.service-card:hover{background:var(--surface)}
+.service-card:hover::before{opacity:1}
+.service-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(255,255,255,0.04);line-height:1;margin-bottom:1.5rem}
+.service-name{font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;color:var(--white);margin-bottom:.8rem}
+.service-desc{color:var(--muted);font-size:.86rem;line-height:1.85}
+.service-arrow{display:inline-block;margin-top:1.5rem;color:var(--accent);font-size:1.2rem;transition:transform .25s}
+.service-card:hover .service-arrow{transform:translate(4px,-4px)}
+
+/* CONTACT */
+#contact{padding:8rem 3rem;border-top:1px solid var(--border);position:relative;overflow:hidden}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;position:relative;z-index:1}
+.contact-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);line-height:.92;color:var(--white);margin-bottom:2rem}
+.contact-heading .iw{font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent)}
+.contact-links{display:flex;flex-direction:column;gap:1rem;margin-top:2.5rem}
+.contact-link-item{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:color .2s}
+.contact-link-item:hover{color:var(--accent)}
+.contact-link-label{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
+.contact-link-val{font-size:.95rem}
+.contact-link-arrow{font-size:1.1rem;transition:transform .2s}
+.contact-link-item:hover .contact-link-arrow{transform:translate(4px,-4px)}
+.contact-form-wrap{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:20px;padding:2.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem}
+.form-group label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.form-group input,.form-group textarea,.form-group select{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text);padding:.85rem 1rem;font-family:'Syne',sans-serif;font-size:.88rem;font-weight:300;outline:none;border-radius:8px;transition:border-color .2s,background .2s;appearance:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);background:rgba(212,168,83,0.04)}
+.form-group textarea{resize:vertical;min-height:110px}
+.form-group select option{background:var(--surface)}
+.btn-submit{width:100%;background:var(--accent);color:var(--bg);border:none;padding:1rem 2rem;font-family:'Syne',sans-serif;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;cursor:none;border-radius:8px;margin-top:.5rem;transition:opacity .2s,transform .2s;font-weight:500}
+.btn-submit:hover{opacity:.9;transform:translateY(-1px)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.1em;color:var(--muted)}
+footer p{color:var(--muted);font-size:.72rem;letter-spacing:.06em}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9990;align-items:center;justify-content:center}
+.lightbox.active{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
+.lightbox-close{position:absolute;top:2rem;right:2.5rem;font-size:1.3rem;color:var(--muted);cursor:none;background:none;border:none;transition:color .2s;line-height:1}
+.lightbox-close:hover{color:var(--white)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.12s}
+.reveal-delay-2{transition-delay:.24s}
+
+/* KEYFRAMES */
+@keyframes slideUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links{display:none}
+  #hero{padding:5rem 1.5rem 3.5rem}
+  .hero-bottom{flex-direction:column;align-items:flex-start;gap:2rem}
+  #work,#about,#services,#contact{padding:5rem 1.5rem}
+  #about{grid-template-columns:1fr;gap:3rem}
+  .stat-card:nth-child(2){right:-0.5rem}
+  .stat-card:nth-child(3){left:-0.5rem}
+  .services-grid{grid-template-columns:1fr}
+  .contact-inner{grid-template-columns:1fr;gap:3rem}
+  .bento{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+  .b-wide,.b-tall,.b-med,.b-sm,.b-half{grid-column:span 2!important;grid-row:span 1!important}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+  .form-row{grid-template-columns:1fr}
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none}
+}
+</style>
 </head>
 <body>
 
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
 <!-- NAV -->
 <nav>
-  <a href="#hero" class="nav-logo">Kolebe</a>
+  <a href="#hero" class="nav-logo">K.</a>
   <ul class="nav-links">
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
@@ -573,1142 +215,317 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Photography · St. Louis & Beyond</p>
-    <h1 class="hero-title">Every frame<br>tells a <em>story</em><br>worth keeping.</h1>
-    <p class="hero-sub">Real estate, weddings, portraits, and editorial work — based in Sullivan, Missouri, available everywhere.</p>
-    <a href="#contact" class="btn">Book a Shoot</a>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-bg-letter">K</div>
+  <p class="hero-tag">Photography · Sullivan, MO · Available Worldwide</p>
+  <h1 class="hero-title">Light<br><span class="iw">Finds</span><br>Truth</h1>
+  <div class="hero-bottom">
+    <p class="hero-sub">Real estate, weddings, portraits, and editorial — crafted with a Sony A7IV and an obsession with the decisive moment.</p>
+    <a href="#work" class="hero-cta">
+      <span>View Work</span>
+      <div class="hero-cta-circle">↗</div>
+    </a>
+  </div>
+  <div class="scroll-line">
+    <span>Scroll</span>
+    <div class="scroll-line-bar"></div>
   </div>
 </section>
 
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Real Estate <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Weddings <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Portraits <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Editorial <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Sony A7IV <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Sullivan MO <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">St. Louis Metro <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Real Estate <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Weddings <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Portraits <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Editorial <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Sony A7IV <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">Sullivan MO <span class="marquee-dot">◆</span></div>
+    <div class="marquee-item">St. Louis Metro <span class="marquee-dot">◆</span></div>
+  </div>
+</div>
+
 <!-- WORK -->
 <section id="work">
-  <div class="section-header">
-    <span class="section-label">Portfolio</span>
-    <h2 class="section-title">Selected Work</h2>
+  <div class="reveal">
+    <span class="section-label">Selected Work</span>
+    <h2 class="section-title">The Portfolio</h2>
+  </div>
+  <div class="filter-row reveal reveal-delay-1">
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="realestate">Real Estate</button>
+      <button class="filter-btn" data-filter="wedding">Weddings</button>
+      <button class="filter-btn" data-filter="portrait">Portraits</button>
+    </div>
   </div>
 
-  <!-- FILTER TABS -->
-  <div class="filter-tabs">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="realestate">Real Estate</button>
-    <button class="filter-btn" data-filter="wedding">Weddings</button>
-    <button class="filter-btn" data-filter="portrait">Portraits</button>
+  <!--
+    TO ADD YOUR PHOTOS:
+    Replace <div class="bento-ph">...</div> with <img src="filename.jpg" alt="...">
+    data-cat: realestate | wedding | portrait
+  -->
+  <div class="bento reveal reveal-delay-2">
+    <div class="bento-item b-wide" data-cat="realestate">
+      <div class="bento-ph"><div class="bento-ph-icon">⌂</div><div class="bento-ph-label">RE · Hero Shot</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Real Estate</span></div>
+    </div>
+    <div class="bento-item b-tall" data-cat="realestate">
+      <div class="bento-ph"><div class="bento-ph-icon">⌂</div><div class="bento-ph-label">RE · Exterior</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Real Estate</span></div>
+    </div>
+    <div class="bento-item b-sm" data-cat="realestate">
+      <div class="bento-ph"><div class="bento-ph-icon">⌂</div><div class="bento-ph-label">RE · Kitchen</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Real Estate</span></div>
+    </div>
+    <div class="bento-item b-sm" data-cat="realestate">
+      <div class="bento-ph"><div class="bento-ph-icon">⌂</div><div class="bento-ph-label">RE · Living Room</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Real Estate</span></div>
+    </div>
+    <div class="bento-item b-sm" data-cat="realestate">
+      <div class="bento-ph"><div class="bento-ph-icon">⌂</div><div class="bento-ph-label">RE · Twilight</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Real Estate</span></div>
+    </div>
+    <div class="bento-item b-half" data-cat="wedding">
+      <div class="bento-ph"><div class="bento-ph-icon">◎</div><div class="bento-ph-label">Wed · Ceremony</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Wedding</span></div>
+    </div>
+    <div class="bento-item b-half" data-cat="wedding">
+      <div class="bento-ph"><div class="bento-ph-icon">◎</div><div class="bento-ph-label">Wed · Couple</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Wedding</span></div>
+    </div>
+    <div class="bento-item b-med" data-cat="wedding">
+      <div class="bento-ph"><div class="bento-ph-icon">◎</div><div class="bento-ph-label">Wed · Reception</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Wedding</span></div>
+    </div>
+    <div class="bento-item b-med" data-cat="wedding">
+      <div class="bento-ph"><div class="bento-ph-icon">◎</div><div class="bento-ph-label">Wed · Detail</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Wedding</span></div>
+    </div>
+    <div class="bento-item b-tall" data-cat="portrait">
+      <div class="bento-ph"><div class="bento-ph-icon">◉</div><div class="bento-ph-label">Port · Editorial</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Portrait</span></div>
+    </div>
+    <div class="bento-item b-wide" data-cat="portrait">
+      <div class="bento-ph"><div class="bento-ph-icon">◉</div><div class="bento-ph-label">Port · Model</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Portrait</span></div>
+    </div>
+    <div class="bento-item b-sm" data-cat="portrait">
+      <div class="bento-ph"><div class="bento-ph-icon">◉</div><div class="bento-ph-label">Port · Close-up</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Portrait</span></div>
+    </div>
+    <div class="bento-item b-sm" data-cat="portrait">
+      <div class="bento-ph"><div class="bento-ph-icon">◉</div><div class="bento-ph-label">Port · Outdoor</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Portrait</span></div>
+    </div>
+    <div class="bento-item b-sm" data-cat="portrait">
+      <div class="bento-ph"><div class="bento-ph-icon">◉</div><div class="bento-ph-label">Port · Lifestyle</div></div>
+      <div class="bento-overlay"><span class="bento-overlay-text">Portrait</span></div>
+    </div>
   </div>
+</section>
 
-  <div class="gallery">
-    <!-- 
-      HOW TO ADD YOUR PHOTOS:
-      1. Upload your image file to the GitHub repo (e.g. kitchen.jpg)
-      2. Replace the <div class="gallery-placeholder">...</div> with:
-         <img src="kitchen.jpg" alt="Kitchen interior">
-      3. Set data-cat to: realestate | wedding | portrait
-    -->
-
-    <!-- Real Estate -->
-    <div class="gallery-item span-7-2" data-cat="realestate">
-      <div class="gallery-placeholder">Real Estate — Hero Shot</div>
-      <span class="cat-tag">Real Estate</span>
+<!-- HORIZONTAL STRIP -->
+<section id="strip">
+  <div class="strip-header reveal">
+    <div>
+      <span class="section-label">Featured</span>
+      <h2 class="section-title" style="margin-bottom:0">Recent Favorites</h2>
     </div>
-    <div class="gallery-item span-5" data-cat="realestate">
-      <div class="gallery-placeholder">Kitchen</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="realestate">
-      <div class="gallery-placeholder">Living Room</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="realestate">
-      <div class="gallery-placeholder">Exterior</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="realestate">
-      <div class="gallery-placeholder">Bedroom</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="realestate">
-      <div class="gallery-placeholder">Twilight</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-
-    <!-- Weddings -->
-    <div class="gallery-item span-5-2" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Ceremony</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-    <div class="gallery-item span-7" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Couple</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-    <div class="gallery-item span-7" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Reception</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Detail</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-
-    <!-- Portraits -->
-    <div class="gallery-item span-4" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Model</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Editorial</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Lifestyle</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-7-2" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Hero</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Close-up</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Outdoor</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
+    <span style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase">Drag to explore →</span>
+  </div>
+  <div class="strip-scroll" id="stripScroll">
+    <div class="strip-item"><div class="bento-ph"><div class="bento-ph-icon">✦</div><div class="bento-ph-label">Favorite 1</div></div></div>
+    <div class="strip-item"><div class="bento-ph"><div class="bento-ph-icon">✦</div><div class="bento-ph-label">Favorite 2</div></div></div>
+    <div class="strip-item"><div class="bento-ph"><div class="bento-ph-icon">✦</div><div class="bento-ph-label">Favorite 3</div></div></div>
+    <div class="strip-item"><div class="bento-ph"><div class="bento-ph-icon">✦</div><div class="bento-ph-label">Favorite 4</div></div></div>
+    <div class="strip-item"><div class="bento-ph"><div class="bento-ph-icon">✦</div><div class="bento-ph-label">Favorite 5</div></div></div>
+    <div class="strip-item"><div class="bento-ph"><div class="bento-ph-icon">✦</div><div class="bento-ph-label">Favorite 6</div></div></div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="about-image">
-    <!-- Replace with: <img src="your-portrait.jpg" alt="Kolebe"> -->
-    Portrait
+  <div class="about-visual reveal">
+    <div class="about-img-wrap">
+      <!-- Replace with: <img src="portrait.jpg" alt="Kolebe"> -->
+      Your Portrait
+    </div>
+    <div class="stat-card"><div class="stat-num">A7IV</div><div class="stat-label">Sony Full Frame</div></div>
+    <div class="stat-card"><div class="stat-num">MO</div><div class="stat-label">Based in Sullivan</div></div>
   </div>
-  <div class="about-text">
-    <div class="section-header">
-      <span class="section-label">About</span>
-      <h2 class="section-title">The Photographer</h2>
+  <div class="reveal reveal-delay-1">
+    <span class="section-label">About</span>
+    <p class="about-intro">"I don't take photos of things. I take photos of the light between them."</p>
+    <p class="about-text">I'm <strong>Kolebe</strong> — a photographer, digital artist, and visual creator based in Sullivan, Missouri. My background spans digital arts, 3D work, and design, which means I approach every shoot thinking about composition, atmosphere, and story — not just exposure.</p>
+    <p class="about-text">Whether I'm shooting a home that needs to sell, a couple on their biggest day, or a model pushing for their next editorial — I bring the same obsession: <strong>find the light, trust the moment, deliver something real.</strong></p>
+    <div class="gear-list">
+      <span class="gear-tag">Sony A7IV</span>
+      <span class="gear-tag">Adobe Lightroom</span>
+      <span class="gear-tag">Photoshop</span>
+      <span class="gear-tag">Capture One</span>
+      <span class="gear-tag">Available Worldwide</span>
     </div>
-    <p class="about-body">
-      I'm <strong>Kolebe</strong>, a photographer based in Sullivan, Missouri with a background in digital arts and a sharp eye for light, space, and composition. I shoot with a <strong>Sony A7IV</strong> and edit in Adobe Lightroom and Photoshop — so what you get is sharp, clean, and ready to list.
-    </p>
-    <p class="about-body">
-      Real estate photography is about more than pretty pictures. It's about making a buyer stop scrolling. I work quickly, deliver fast, and make the process easy for agents who don't have time to babysit a shoot.
-    </p>
-    <a href="#contact" class="btn">Get in Touch</a>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-header">
-    <span class="section-label">Offerings</span>
-    <h2 class="section-title">What I Shoot</h2>
-  </div>
-
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-number">01</div>
-      <div class="service-name">Real Estate</div>
-      <p class="service-desc">Interior and exterior photography for listings, rentals, and commercial spaces. Fast turnaround, MLS-ready files.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-number">02</div>
-      <div class="service-name">Weddings &amp; Events</div>
-      <p class="service-desc">Full-day wedding coverage, engagements, and special events. Candid and editorial — capturing moments as they happen.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-number">03</div>
-      <div class="service-name">Portraits &amp; Editorial</div>
-      <p class="service-desc">Model portfolios, headshots, lifestyle, and creative editorial sessions. Built around your vision.</p>
-    </div>
-  }
-
-    .contact-value:hover { color: var(--accent); }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.85rem 1rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 300;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--accent);
-    }
-
-    .form-group textarea { resize: vertical; min-height: 120px; }
-
-    .form-group select option { background: var(--surface); }
-
-    .btn-submit {
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 1rem 2.5rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: opacity 0.2s;
-    }
-
-    .btn-submit:hover { opacity: 0.85; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-    }
-
-    footer p {
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lightbox.active { display: flex; }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 2rem; right: 2.5rem;
-      font-size: 1.5rem;
-      color: var(--muted);
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-
-    .lightbox-close:hover { color: var(--white); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; }
-
-      #hero { padding: 6rem 1.5rem 3rem; }
-
-      #work, #about, #services, #contact { padding: 4rem 1.5rem; }
-
-      .gallery {
-        grid-template-columns: 1fr 1fr;
-        grid-auto-rows: 200px;
-      }
-
-      .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; }
-
-      #about { grid-template-columns: 1fr; gap: 2.5rem; }
-
-      .services-grid { grid-template-columns: 1fr; }
-
-      #contact { grid-template-columns: 1fr; gap: 3rem; }
-
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">Kolebe</a>
-  <ul class="nav-links">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Photography · St. Louis & Beyond</p>
-    <h1 class="hero-title">Every frame<br>tells a <em>story</em><br>worth keeping.</h1>
-    <p class="hero-sub">Real estate, weddings, portraits, and editorial work — based in Sullivan, Missouri, available everywhere.</p>
-    <a href="#contact" class="btn">Book a Shoot</a>
-  </div>
-</section>
-
-<!-- WORK -->
-<section id="work">
-  <div class="section-header">
-    <span class="section-label">Portfolio</span>
-    <h2 class="section-title">Selected Work</h2>
-  </div>
-
-  <!-- FILTER TABS -->
-  <div class="filter-tabs">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="realestate">Real Estate</button>
-    <button class="filter-btn" data-filter="wedding">Weddings</button>
-    <button class="filter-btn" data-filter="portrait">Portraits</button>
-  </div>
-
-  <div class="gallery">
-    <!-- 
-      HOW TO ADD YOUR PHOTOS:
-      1. Upload your image file to the GitHub repo (e.g. kitchen.jpg)
-      2. Replace the <div class="gallery-placeholder">...</div> with:
-         <img src="kitchen.jpg" alt="Kitchen interior">
-      3. Set data-cat to: realestate | wedding | portrait
-    -->
-
-    <!-- Real Estate -->
-    <div class="gallery-item span-7-2" data-cat="realestate">
-      <div class="gallery-placeholder">Real Estate — Hero Shot</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="realestate">
-      <div class="gallery-placeholder">Kitchen</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="realestate">
-      <div class="gallery-placeholder">Living Room</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="realestate">
-      <div class="gallery-placeholder">Exterior</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="realestate">
-      <div class="gallery-placeholder">Bedroom</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="realestate">
-      <div class="gallery-placeholder">Twilight</div>
-      <span class="cat-tag">Real Estate</span>
-    </div>
-
-    <!-- Weddings -->
-    <div class="gallery-item span-5-2" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Ceremony</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-    <div class="gallery-item span-7" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Couple</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-    <div class="gallery-item span-7" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Reception</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="wedding">
-      <div class="gallery-placeholder">Wedding — Detail</div>
-      <span class="cat-tag">Wedding</span>
-    </div>
-
-    <!-- Portraits -->
-    <div class="gallery-item span-4" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Model</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Editorial</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-4" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Lifestyle</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-7-2" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Hero</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Close-up</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-    <div class="gallery-item span-5" data-cat="portrait">
-      <div class="gallery-placeholder">Portrait — Outdoor</div>
-      <span class="cat-tag">Portrait</span>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-image">
-    <!-- Replace with: <img src="your-portrait.jpg" alt="Kolebe"> -->
-    Portrait
-  </div>
-  <div class="about-text">
-    <div class="section-header">
-      <span class="section-label">About</span>
-      <h2 class="section-title">The Photographer</h2>
-    </div>
-    <p class="about-body">
-      I'm <strong>Kolebe</strong>, a photographer based in Sullivan, Missouri with a background in digital arts and a sharp eye for light, space, and composition. I shoot with a <strong>Sony A7IV</strong> and edit in Adobe Lightroom and Photoshop — so what you get is sharp, clean, and ready to list.
-    </p>
-    <p class="about-body">
-      Real estate photography is about more than pretty pictures. It's about making a buyer stop scrolling. I work quickly, deliver fast, and make the process easy for agents who don't have time to babysit a shoot.
-    </p>
-    <a href="#contact" class="btn">Get in Touch</a>
+    <a href="#contact" style="display:inline-flex;align-items:center;gap:.8rem;text-decoration:none;color:var(--accent);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--accent);padding-bottom:.3rem">Work With Me ↗</a>
   </div>
 </section>
 
 <!-- SERVICES -->
 <section id="services">
-  <div class="section-header">
-    <span class="section-label">Offerings</span>
-    <h2 class="section-title">What I Shoot</h2>
+  <div class="reveal">
+    <span class="section-label">What I Offer</span>
+    <h2 class="section-title">Services</h2>
   </div>
-
   <div class="services-grid">
-    <div class="service-card">
-      <div class="service-number">01</div>
-      <div class="service-name">Real Estate</div>
-      <p class="service-desc">Interior and exterior photography for listings, rentals, and commercial spaces. Fast turnaround, MLS-ready files.</p>
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-name">Real Estate & Architecture</div>
+      <p class="service-desc">Interior and exterior photography for listings, rentals, and commercial spaces. MLS-ready, fast turnaround.</p>
+      <span class="service-arrow">↗</span>
     </div>
-    <div class="service-card">
-      <div class="service-number">02</div>
-      <div class="service-name">Weddings &amp; Events</div>
-      <p class="service-desc">Full-day wedding coverage, engagements, and special events. Candid and editorial — capturing moments as they happen.</p>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <div class="service-name">Weddings & Events</div>
+      <p class="service-desc">Full-day and partial-day wedding coverage, engagements, and special events. Candid and editorial — real moments, beautifully kept.</p>
+      <span class="service-arrow">↗</span>
     </div>
-    <div class="service-card">
-      <div class="service-number">03</div>
-      <div class="service-name">Portraits &amp; Editorial</div>
-      <p class="service-desc">Model portfolios, headshots, lifestyle, and creative editorial sessions. Built around your vision.</p>
-    </div>
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      background: rgba(13,13,13,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      color: var(--white);
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--accent); }
-
-    /* ── HERO ── */
-    #hero {
-      height: 100vh;
-      display: flex;
-      align-items: flex-end;
-      padding: 5rem 3rem;
-      position: relative;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 100%),
-        /* Replace this with your hero image: url('your-hero.jpg') center/cover */
-        linear-gradient(135deg, #1a1512 0%, #0d0d0d 50%, #12100e 100%);
-      background-size: cover;
-      background-position: center;
-    }
-
-    /* Decorative grain overlay */
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      opacity: 0.4;
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 700px;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.4s forwards;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .hero-sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      max-width: 420px;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.6s forwards;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.85rem 2.2rem;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: background 0.25s, color 0.25s;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.8s forwards;
-    }
-
-    .btn:hover {
-      background: var(--accent);
-      color: var(--bg);
-    }
-
-    /* ── WORK ── */
-    #work {
-      padding: 7rem 3rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .section-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 300;
-      color: var(--white);
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: 220px;
-      gap: 6px;
-    }
-
-    .gallery-item {
-      background: var(--surface);
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-
-    /* Layout variation */
-    .gallery-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
-    .gallery-item:nth-child(2) { grid-column: span 5; }
-    .gallery-item:nth-child(3) { grid-column: span 5; }
-    .gallery-item:nth-child(4) { grid-column: span 4; }
-    .gallery-item:nth-child(5) { grid-column: span 4; }
-    .gallery-item:nth-child(6) { grid-column: span 4; }
-    .gallery-item:nth-child(7) { grid-column: span 5; grid-row: span 2; }
-    .gallery-item:nth-child(8) { grid-column: span 7; }
-    .gallery-item:nth-child(9) { grid-column: span 7; }
-
-    .gallery-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      filter: brightness(0.9);
-    }
-
-    .gallery-item:hover img { transform: scale(1.04); filter: brightness(1); }
-
-    /* Placeholder when no image */
-    .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--surface);
-      border: 1px dashed var(--border);
-      color: var(--muted);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* ── ABOUT ── */
-    #about {
-      padding: 7rem 3rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-      border-top: 1px solid var(--border);
-    }
-
-    .about-image {
-      aspect-ratio: 4/5;
-      background: var(--surface);
-      border: 1px dashed var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      overflow: hidden;
-    }
-
-    .about-image img { width: 100%; height: 100%; object-fit: cover; }
-
-    .about-text .section-header { margin-bottom: 2rem; }
-
-    .about-body {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.9;
-      margin-bottom: 2rem;
-    }
-
-    .about-body strong { color: var(--text); font-weight: 400; }
-
-    /* ── SERVICES ── */
-    #services {
-      padding: 7rem 3rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      margin-top: 3.5rem;
-    }
-
-    .service-card {
-      background: var(--bg);
-      padding: 2.5rem;
-      transition: background 0.2s;
-    }
-
-    .service-card:hover { background: var(--surface); }
-
-    .service-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      font-weight: 300;
-      color: var(--border);
-      margin-bottom: 1.5rem;
-      line-height: 1;
-    }
-
-    .service-name {
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--white);
-      margin-bottom: 0.8rem;
-    }
-
-    .service-desc {
-      color: var(--muted);
-      font-size: 0.88rem;
-      line-height: 1.8;
-    }
-
-    /* ── CONTACT ── */
-    #contact {
-      padding: 7rem 3rem;
-      border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-    }
-
-    .contact-left .section-title {
-      margin-bottom: 1.5rem;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-    }
-
-    .contact-left p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      max-width: 380px;
-      margin-bottom: 2.5rem;
-    }
-
-    .contact-detail {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .contact-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-
-    .contact-value {
-      color: var(--text);
-      font-size: 0.9rem;
-      text-decoration: none;
-    }
-
-    .contact-value:hover { color: var(--accent); }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.85rem 1rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 300;
-      outline: none;
-      transition: border-color 0.2s;
-      appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--accent);
-    }
-
-    .form-group textarea { resize: vertical; min-height: 120px; }
-
-    .form-group select option { background: var(--surface); }
-
-    .btn-submit {
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      padding: 1rem 2.5rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      align-self: flex-start;
-      transition: opacity 0.2s;
-    }
-
-    .btn-submit:hover { opacity: 0.85; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer .logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-    }
-
-    footer p {
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lightbox.active { display: flex; }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: 2rem; right: 2.5rem;
-      font-size: 1.5rem;
-      color: var(--muted);
-      cursor: pointer;
-      background: none;
-      border: none;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-
-    .lightbox-close:hover { color: var(--white); }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { display: none; }
-
-      #hero { padding: 6rem 1.5rem 3rem; }
-
-      #work, #about, #services, #contact { padding: 4rem 1.5rem; }
-
-      .gallery {
-        grid-template-columns: 1fr 1fr;
-        grid-auto-rows: 200px;
-      }
-
-      .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; }
-
-      #about { grid-template-columns: 1fr; gap: 2.5rem; }
-
-      .services-grid { grid-template-columns: 1fr; }
-
-      #contact { grid-template-columns: 1fr; gap: 3rem; }
-
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">Kolebe</a>
-  <ul class="nav-links">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Real Estate &amp; Architectural Photography</p>
-    <h1 class="hero-title">Every space<br>has a <em>story</em><br>worth selling.</h1>
-    <p class="hero-sub">Helping realtors and property owners in the Sullivan / St. Louis area close faster with images that move people.</p>
-    <a href="#contact" class="btn">Book a Shoot</a>
-  </div>
-</section>
-
-<!-- WORK -->
-<section id="work">
-  <div class="section-header">
-    <span class="section-label">Portfolio</span>
-    <h2 class="section-title">Selected Work</h2>
-  </div>
-
-  <div class="gallery">
-    <!-- Replace gallery-placeholder divs with: <img src="your-photo.jpg" alt="description"> -->
-    <div class="gallery-item"><div class="gallery-placeholder">Hero Shot</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Interior</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Kitchen</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Living Room</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Exterior</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Bedroom</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Detail</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Twilight</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">Aerial / Wide</div></div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-image">
-    <!-- Replace with: <img src="your-portrait.jpg" alt="Kolebe"> -->
-    Portrait
-  </div>
-  <div class="about-text">
-    <div class="section-header">
-      <span class="section-label">About</span>
-      <h2 class="section-title">The Photographer</h2>
-    </div>
-    <p class="about-body">
-      I'm <strong>Kolebe</strong>, a photographer based in Sullivan, Missouri with a background in digital arts and a sharp eye for light, space, and composition. I shoot with a <strong>Sony A7IV</strong> and edit in Adobe Lightroom and Photoshop — so what you get is sharp, clean, and ready to list.
-    </p>
-    <p class="about-body">
-      Real estate photography is about more than pretty pictures. It's about making a buyer stop scrolling. I work quickly, deliver fast, and make the process easy for agents who don't have time to babysit a shoot.
-    </p>
-    <a href="#contact" class="btn">Get in Touch</a>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-header">
-    <span class="section-label">Offerings</span>
-    <h2 class="section-title">What I Shoot</h2>
-  </div>
-
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-number">01</div>
-      <div class="service-name">Residential Listings</div>
-      <p class="service-desc">Interior and exterior photography for single-family homes, townhomes, and condos. Fast turnaround, MLS-ready files.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-number">02</div>
-      <div class="service-name">Twilight &amp; Dusk</div>
-      <p class="service-desc">Dramatic golden-hour and twilight exteriors that stop the scroll. Available as an add-on to any listing package.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-number">03</div>
-      <div class="service-name">Commercial &amp; Rental</div>
-      <p class="service-desc">Offices, short-term rentals, and commercial spaces. Clean, bright, and professional — built for high conversion.</p>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <div class="service-name">Portraits & Editorial</div>
+      <p class="service-desc">Model portfolios, headshots, lifestyle, and creative editorial sessions. Built entirely around your vision.</p>
+      <span class="service-arrow">↗</span>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-left">
-    <div class="section-header">
-      <span class="section-label">Contact</span>
+  <div class="orb orb-1" style="bottom:-200px;right:-100px;top:auto"></div>
+  <div class="contact-inner">
+    <div class="reveal">
+      <span class="section-label">Get In Touch</span>
+      <h2 class="contact-heading">Let's make<br>something<br><span class="iw">worth keeping.</span></h2>
+      <p style="color:var(--muted);font-size:.88rem;line-height:1.8;max-width:360px">Based in Sullivan, MO. Covering the St. Louis metro, Franklin County, and available for travel bookings nationwide.</p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="contact-link-item">
+          <div><div class="contact-link-label">Email</div><div class="contact-link-val">your@email.com</div></div>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="tel:+15550000000" class="contact-link-item">
+          <div><div class="contact-link-label">Phone</div><div class="contact-link-val">(555) 000-0000</div></div>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <div class="contact-link-item" style="cursor:default">
+          <div><div class="contact-link-label">Coverage</div><div class="contact-link-val">Sullivan · Union · St. Louis Metro</div></div>
+        </div>
+      </div>
     </div>
-    <h2 class="section-title" style="font-family:'Cormorant Garamond',serif;font-weight:300;color:var(--white);margin-bottom:1.5rem;">
-      Let's make<br><em style="font-style:italic;color:var(--accent)">your listing</em><br>stand out.
-    </h2>
-    <p>Based in Sullivan, MO. Available throughout the St. Louis metro and Franklin County area. Fast delivery, easy to work with.</p>
-
-    <div class="contact-detail">
-      <span class="contact-label">Email</span>
-      <a href="mailto:your@email.com" class="contact-value">your@email.com</a>
+    <div class="contact-form-wrap reveal reveal-delay-1">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Jane"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Smith"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="jane@realty.com"/></div>
+      <div class="form-group">
+        <label>I Need</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Real Estate Photography</option>
+          <option>Wedding Coverage</option>
+          <option>Portrait / Editorial</option>
+          <option>Something Else</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Tell Me More</label><textarea placeholder="Property address, event date, vision, budget — anything helps..."></textarea></div>
+      <button class="btn-submit">Send Inquiry →</button>
     </div>
-    <div class="contact-detail">
-      <span class="contact-label">Phone</span>
-      <a href="tel:+15550000000" class="contact-value">(555) 000-0000</a>
-    </div>
-    <div class="contact-detail">
-      <span class="contact-label">Coverage Area</span>
-      <span class="contact-value">Sullivan · Union · St. Louis Metro</span>
-    </div>
-  </div>
-
-  <div class="contact-form">
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" placeholder="Jane Smith" />
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" placeholder="jane@realty.com" />
-    </div>
-    <div class="form-group">
-      <label>Property Type</label>
-      <select>
-        <option value="">Select one...</option>
-        <option>Residential Listing</option>
-        <option>Commercial Space</option>
-        <option>Short-Term Rental</option>
-        <option>Twilight / Specialty</option>
-        <option>Other</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Message</label>
-      <textarea placeholder="Tell me about the property, location, and your timeline..."></textarea>
-    </div>
-    <button class="btn-submit">Send Inquiry</button>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <span class="logo">Kolebe</span>
+  <span class="footer-logo">Kolebe.</span>
   <p>© 2026 · Sullivan, Missouri · All rights reserved</p>
 </footer>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="" />
+  <img id="lightbox-img" src="" alt=""/>
 </div>
 
 <script>
-  // Lightbox
-  document.querySelectorAll('.gallery-item img').forEach(img => {
-    img.addEventListener('click', () => {
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox').classList.add('active');
-    });
-  });
+// CURSOR
+const cur=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button,.bento-item,.filter-btn,.strip-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+});
 
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
-  }
-
-  document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) closeLightbox();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-  });
-
-  // Scroll fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
+// FILTER
+const filterBtns=document.querySelectorAll('.filter-btn');
+const bentoItems=document.querySelectorAll('.bento-item');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    bentoItems.forEach(item=>{
+      if(f==='all'||item.dataset.cat===f){
+        item.classList.remove('hidden');
+      } else {
+        item.classList.add('hidden');
       }
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.service-card, .gallery-item, .about-text').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
   });
+});
+
+// LIGHTBOX
+document.querySelectorAll('.bento-item img,.strip-item img').forEach(img=>{
+  img.addEventListener('click',()=>{
+    document.getElementById('lightbox-img').src=img.src;
+    document.getElementById('lightbox').classList.add('active');
+  });
+});
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active')}
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+
+// SCROLL REVEAL
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// DRAG SCROLL
+const strip=document.getElementById('stripScroll');
+let isDown=false,startX,scrollLeft;
+strip.addEventListener('mousedown',e=>{isDown=true;startX=e.pageX-strip.offsetLeft;scrollLeft=strip.scrollLeft});
+strip.addEventListener('mouseleave',()=>isDown=false);
+strip.addEventListener('mouseup',()=>isDown=false);
+strip.addEventListener('mousemove',e=>{
+  if(!isDown)return;e.preventDefault();
+  strip.scrollLeft=scrollLeft-(e.pageX-strip.offsetLeft-startX)*1.5;
+});
 </script>
 </body>
 </html>
