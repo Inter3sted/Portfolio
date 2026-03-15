@@ -722,6 +722,322 @@
       <div class="service-name">Portraits &amp; Editorial</div>
       <p class="service-desc">Model portfolios, headshots, lifestyle, and creative editorial sessions. Built around your vision.</p>
     </div>
+  }
+
+    .contact-value:hover { color: var(--accent); }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-group select option { background: var(--surface); }
+
+    .btn-submit {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: opacity 0.2s;
+    }
+
+    .btn-submit:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 2rem; right: 2.5rem;
+      font-size: 1.5rem;
+      color: var(--muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: var(--white); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+
+      #hero { padding: 6rem 1.5rem 3rem; }
+
+      #work, #about, #services, #contact { padding: 4rem 1.5rem; }
+
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 200px;
+      }
+
+      .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; }
+
+      #about { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .services-grid { grid-template-columns: 1fr; }
+
+      #contact { grid-template-columns: 1fr; gap: 3rem; }
+
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Kolebe</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Photography · St. Louis & Beyond</p>
+    <h1 class="hero-title">Every frame<br>tells a <em>story</em><br>worth keeping.</h1>
+    <p class="hero-sub">Real estate, weddings, portraits, and editorial work — based in Sullivan, Missouri, available everywhere.</p>
+    <a href="#contact" class="btn">Book a Shoot</a>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-header">
+    <span class="section-label">Portfolio</span>
+    <h2 class="section-title">Selected Work</h2>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-tabs">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="realestate">Real Estate</button>
+    <button class="filter-btn" data-filter="wedding">Weddings</button>
+    <button class="filter-btn" data-filter="portrait">Portraits</button>
+  </div>
+
+  <div class="gallery">
+    <!-- 
+      HOW TO ADD YOUR PHOTOS:
+      1. Upload your image file to the GitHub repo (e.g. kitchen.jpg)
+      2. Replace the <div class="gallery-placeholder">...</div> with:
+         <img src="kitchen.jpg" alt="Kitchen interior">
+      3. Set data-cat to: realestate | wedding | portrait
+    -->
+
+    <!-- Real Estate -->
+    <div class="gallery-item span-7-2" data-cat="realestate">
+      <div class="gallery-placeholder">Real Estate — Hero Shot</div>
+      <span class="cat-tag">Real Estate</span>
+    </div>
+    <div class="gallery-item span-5" data-cat="realestate">
+      <div class="gallery-placeholder">Kitchen</div>
+      <span class="cat-tag">Real Estate</span>
+    </div>
+    <div class="gallery-item span-5" data-cat="realestate">
+      <div class="gallery-placeholder">Living Room</div>
+      <span class="cat-tag">Real Estate</span>
+    </div>
+    <div class="gallery-item span-4" data-cat="realestate">
+      <div class="gallery-placeholder">Exterior</div>
+      <span class="cat-tag">Real Estate</span>
+    </div>
+    <div class="gallery-item span-4" data-cat="realestate">
+      <div class="gallery-placeholder">Bedroom</div>
+      <span class="cat-tag">Real Estate</span>
+    </div>
+    <div class="gallery-item span-4" data-cat="realestate">
+      <div class="gallery-placeholder">Twilight</div>
+      <span class="cat-tag">Real Estate</span>
+    </div>
+
+    <!-- Weddings -->
+    <div class="gallery-item span-5-2" data-cat="wedding">
+      <div class="gallery-placeholder">Wedding — Ceremony</div>
+      <span class="cat-tag">Wedding</span>
+    </div>
+    <div class="gallery-item span-7" data-cat="wedding">
+      <div class="gallery-placeholder">Wedding — Couple</div>
+      <span class="cat-tag">Wedding</span>
+    </div>
+    <div class="gallery-item span-7" data-cat="wedding">
+      <div class="gallery-placeholder">Wedding — Reception</div>
+      <span class="cat-tag">Wedding</span>
+    </div>
+    <div class="gallery-item span-5" data-cat="wedding">
+      <div class="gallery-placeholder">Wedding — Detail</div>
+      <span class="cat-tag">Wedding</span>
+    </div>
+
+    <!-- Portraits -->
+    <div class="gallery-item span-4" data-cat="portrait">
+      <div class="gallery-placeholder">Portrait — Model</div>
+      <span class="cat-tag">Portrait</span>
+    </div>
+    <div class="gallery-item span-4" data-cat="portrait">
+      <div class="gallery-placeholder">Portrait — Editorial</div>
+      <span class="cat-tag">Portrait</span>
+    </div>
+    <div class="gallery-item span-4" data-cat="portrait">
+      <div class="gallery-placeholder">Portrait — Lifestyle</div>
+      <span class="cat-tag">Portrait</span>
+    </div>
+    <div class="gallery-item span-7-2" data-cat="portrait">
+      <div class="gallery-placeholder">Portrait — Hero</div>
+      <span class="cat-tag">Portrait</span>
+    </div>
+    <div class="gallery-item span-5" data-cat="portrait">
+      <div class="gallery-placeholder">Portrait — Close-up</div>
+      <span class="cat-tag">Portrait</span>
+    </div>
+    <div class="gallery-item span-5" data-cat="portrait">
+      <div class="gallery-placeholder">Portrait — Outdoor</div>
+      <span class="cat-tag">Portrait</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image">
+    <!-- Replace with: <img src="your-portrait.jpg" alt="Kolebe"> -->
+    Portrait
+  </div>
+  <div class="about-text">
+    <div class="section-header">
+      <span class="section-label">About</span>
+      <h2 class="section-title">The Photographer</h2>
+    </div>
+    <p class="about-body">
+      I'm <strong>Kolebe</strong>, a photographer based in Sullivan, Missouri with a background in digital arts and a sharp eye for light, space, and composition. I shoot with a <strong>Sony A7IV</strong> and edit in Adobe Lightroom and Photoshop — so what you get is sharp, clean, and ready to list.
+    </p>
+    <p class="about-body">
+      Real estate photography is about more than pretty pictures. It's about making a buyer stop scrolling. I work quickly, deliver fast, and make the process easy for agents who don't have time to babysit a shoot.
+    </p>
+    <a href="#contact" class="btn">Get in Touch</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header">
+    <span class="section-label">Offerings</span>
+    <h2 class="section-title">What I Shoot</h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-number">01</div>
+      <div class="service-name">Real Estate</div>
+      <p class="service-desc">Interior and exterior photography for listings, rentals, and commercial spaces. Fast turnaround, MLS-ready files.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">02</div>
+      <div class="service-name">Weddings &amp; Events</div>
+      <p class="service-desc">Full-day wedding coverage, engagements, and special events. Candid and editorial — capturing moments as they happen.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">03</div>
+      <div class="service-name">Portraits &amp; Editorial</div>
+      <p class="service-desc">Model portfolios, headshots, lifestyle, and creative editorial sessions. Built around your vision.</p>
+    </div>
       z-index: 100;
       display: flex;
       justify-content: space-between;
